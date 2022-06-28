@@ -51,11 +51,11 @@ User Function SG_COD()
 	oPrinter:Say( nlin,520,"Pagina: 1",oFont5)
 	oPrinter:Say(60,70,"TJ_CODBEM + TJ_NOMBEM",oFont5)
 	oPrinter:Say(60,390,"TJ_CCUSTO + TJ_NOMCUSTO",oFont5)
-	oPrinter:Line(70,01,71,593)   		// horizontal
+	oPrinter:Line(70,01,70,593)   		// horizontal
 //linha 2
 nlin2 := 79
 	oPrinter:Say(nlin2,03,"BEM:",oFont5)
-	oPrinter:Say(nlin2,90,"LA 01-LAMINADOR01",oFont5)
+	oPrinter:Say(nlin2,50,"LA 01-LAMINADOR01",oFont5)
 	oPrinter:Say(nlin2,220,"CRITICIDADE: A",oFont5)
 	oPrinter:Say(nlin2,400,"C.CUSTO: ",oFont5)
 	oPrinter:Say(nlin2,490,"2503-PREPARAÇÃO: ",oFont5)
@@ -65,7 +65,65 @@ nlin2 := 79
 	oPrinter:Say(nlin3,03,"Data início: ",oFont5)
 	oPrinter:Say(nlin3,50,"24/04/2022",oFont5)
     oPrinter:Say(nlin3,90,Time(),oFont5)
-	oPrinter:Line(105,01,106,593)   	// horizontal
+	oPrinter:Line(105,01,105,593)   	// horizontal
+
+
+
+	oPrinter:Line(120,01,120,593) 	// horizontal
+	nline4 := 130
+	nline5 := 140
+	nline6 := 150
+    nline7 := 160
+	oPrinter:Say(nline4,03,"TIPO:",oFont5)
+	oPrinter:Say(nline4,50,"02-manutencao preventina:",oFont5)
+	oPrinter:Say(nline4,220,"EMISSÃO:",oFont5)
+	oPrinter:Say(nline4,270,Time(),oFont5)
+
+	oPrinter:Say(nline5,03,"Serviço:",oFont5)
+	oPrinter:Say(nline5,50,"Lubrificacao:",oFont5)
+	oPrinter:Say(nline5,220,"Area:",oFont5)
+	oPrinter:Say(nline5,250,"05- Lubrificacao:",oFont5)
+
+	oPrinter:Say(nline6,03,"NOME MANUTENCAO:",oFont5)
+	oPrinter:Say(nline6,90,"PL_01M_LA01",oFont5)
+	oPrinter:Say(nline6,220,"SEQUENCIA:",oFont5)
+    oPrinter:Say(nline6,250,"1",oFont5)
+
+    oPrinter:Say(nline7,03,"Plano de manutençao",oFont5)
+	oPrinter:Say(nline7,90,"00012",oFont5)
+	oPrinter:Say(nline7,220,"DESCRICAO:",oFont5)
+    oPrinter:Say(nline7,290,"PLANO E LUBRIFICAÇÃO MENSAL PARA O LAMINADOR",oFont5)
+    oPrinter:Line(165,01,165,593) 	// horizontal
+
+
+
+  	oPrinter:Line(185,01,185,593) 	// horizontal
+	oPrinter:Say(195,03,"OBSERVAÇÃO:",oFont5)
+	OBS := 195
+	SPACE := 50
+	oPrinter:Line(OBS,SPACE,OBS,593) 	// horizontal
+  	oPrinter:Line(205,SPACE,205,593) 	// horizontal
+  	oPrinter:Line(215,SPACE,215,593) 	// horizontal
+  	oPrinter:Line(225,SPACE,225,593) 	// horizontal
+  	oPrinter:Line(235,SPACE,235,593) 	// horizontal
+	oPrinter:Line(255,01,255,593) 	// horizontal
+
+	nlineprevistos := 275
+	oPrinter:Say(nlineprevistos,03,"Insumos previstos:",oFont5)
+	oPrinter:Say(nlineprevistos,03,"Tarefa:",oFont5)
+	oPrinter:Say(nlineprevistos,03,"Tipo:",oFont5)
+	oPrinter:Say(nlineprevistos,03,"Codigo:",oFont5)
+/* //for ii := 1 to 16
+		    if ii > 1 .and. !(ii == 16 )
+               ccolret := ccolret + "AllTrim(aRetorno[oBrowse:nAt,"+strzero(ii,2)+"]),"
+			endif   
+			if ii == 16 //o 16 esta chumbado temos que achao o numero
+			   ccolret := ccolret + "AllTrim(aRetorno[oBrowse:nAt,"+strzero(ii,2)+"])}"
+			endif
+		next */
+
+
+
     oPrinter:EndPage()
 
     oPrinter:Preview()
