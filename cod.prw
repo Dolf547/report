@@ -28,10 +28,15 @@ User Function SG_COD()
 
     Local nPrintType := 6
     Local oFont5    := TFONT():New("ARIAL",7,7,,.F.,,,,,.F.,.F.) ///Fonte 10 Normal
+	Local oFont3    := TFONT():New("ARIAL",6,6,,.F.,,,,,.F.,.F.) ///Fonte 10 Normal
+	local oFontnegrito9	:= TFont():New("ARIAL",8,8,,.T.,,,,.F.,.F.)
+	
+	Local oFont5negrito    := TFONT():New("ARIAL",7,7,,.T.,,,,.F.,.F.) ///Fonte 10 Normal
 	local oFontnegrito	:= TFont():New("ARIAL",17,17,,.T.,,,,.F.,.F.)	 //negrito
     Local oFont10     := TFONT():New("ARIAL",15,15,,.F.,,,,,.F.,.F.) ///Fonte 10 Normal
 
     Local oPrinter   := Nil
+	Local ii := 1
 
 
     oPrinter := FWMSPrinter():New(cRelName, nPrintType, lAdjust, /*cPathDest*/, .T., /*lTReport*/ ,/* oPrintSetup */,/*cPrinter*/, .t. )
@@ -96,31 +101,269 @@ nlin2 := 79
     oPrinter:Line(165,01,165,593) 	// horizontal
 
 
-
-  	oPrinter:Line(185,01,185,593) 	// horizontal
-	oPrinter:Say(195,03,"OBSERVAÇÃO:",oFont5)
+//OBSERVACAO
+  	oPrinter:Line(178,01,178,593) 	// horizontal
+	oPrinter:Say(188,03,"OBSERVAÇÃO:",oFont5)
 	OBS := 195
-	SPACE := 50
-	oPrinter:Line(OBS,SPACE,OBS,593) 	// horizontal
-  	oPrinter:Line(205,SPACE,205,593) 	// horizontal
-  	oPrinter:Line(215,SPACE,215,593) 	// horizontal
-  	oPrinter:Line(225,SPACE,225,593) 	// horizontal
-  	oPrinter:Line(235,SPACE,235,593) 	// horizontal
-	oPrinter:Line(255,01,255,593) 	// horizontal
+	SPACE := 55
+  	oPrinter:Line(196,SPACE,196,593) 	// horizontal
+  	oPrinter:Line(206,SPACE,206,593) 	// horizontal
+  	oPrinter:Line(216,SPACE,216,593) 	// horizontal
+  //	oPrinter:Line(226,SPACE,226,593) 	// horizontal
+	oPrinter:Line(230,01,230,593) 	// horizontal
 
-	nlineprevistos := 275
-	oPrinter:Say(nlineprevistos,03,"Insumos previstos:",oFont5)
-	oPrinter:Say(nlineprevistos,03,"Tarefa:",oFont5)
-	oPrinter:Say(nlineprevistos,03,"Tipo:",oFont5)
-	oPrinter:Say(nlineprevistos,03,"Codigo:",oFont5)
-/* //for ii := 1 to 16
-		    if ii > 1 .and. !(ii == 16 )
-               ccolret := ccolret + "AllTrim(aRetorno[oBrowse:nAt,"+strzero(ii,2)+"]),"
-			endif   
-			if ii == 16 //o 16 esta chumbado temos que achao o numero
-			   ccolret := ccolret + "AllTrim(aRetorno[oBrowse:nAt,"+strzero(ii,2)+"])}"
-			endif
-		next */
+
+	//INSUMOS
+	menos := 17
+	oPrinter:Say(240,03,"INSUMOS PREVISTOS:",oFont5negrito)
+
+	nlinhas := 258 //variavel das linhas
+	nlineprevistos := 273
+//cabeçalho!
+	oPrinter:Line(247,01,247,593) 	// horizontal linha de cima  da box.
+	oPrinter:Say(nlineprevistos -18,03,"Tarefa",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,45,"Tipo",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,95,"Codigo",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,140,"Descrição",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,270,"Qtd",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,320,"Consumo",oFont5negrito)
+	oPrinter:say(nlineprevistos -18,370,"Unidade",oFont5negrito)
+	oPrinter:say(nlineprevistos -18,420,"Data inicio",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,470,"Hora inicio",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,520,"Data fim",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,560,"Hora fim",oFont5negrito)
+
+	oPrinter:Line(257,01,257,593)  //linha de baixo
+
+	//linha de items fixo em 16.
+	
+	ncolunas := 0
+	ncol := 03
+	repetir := 8
+	nlargura := 31
+	line1 := 1
+	
+for ii := 1 to repetir
+ncolunas  := ncolunas+50
+nlinhas:= nlinhas + 10
+	oPrinter:Say(nlinhas,03,"1011",oFont5) 
+	// TAREFA
+	ctipo := 'Mao de obra'
+	IF(Len(AllTrim(ctipo)) > 20)
+	oPrinter:Say(nlinhas-1,32,ctipo,oFont3)  //usa font3
+	else
+	oPrinter:Say(nlinhas-1,32,ctipo,oFont5) 
+	ENDIF
+
+	codigo = '30700310023'
+	IF(Len(AllTrim(codigo)) > 11)// CODIGO
+	oPrinter:Say(nlinhas-1,94,"30700310023",oFont3) 
+	ELSE
+	oPrinter:Say(nlinhas-1,94,codigo,oFont5) // CODIGO
+	ENDIF// itensens
+	cDescr = 'OLEO LUBRIFI'
+	IF(Len(AllTrim(cDescr)) > 24)
+		oPrinter:Say(nlinhas-1,140,SUBSTR(cDescr, 1, 35),oFont3) // DESCRICAO usa font3
+	ELSE
+		oPrinter:Say(nlinhas-1,140,cDescr,oFont5) // DESCRICAO
+	ENDIF
+	oPrinter:Say(nlinhas-1,270,"0,25",oFont5) // QTD
+	oPrinter:Say(nlinhas-1,320,"24,5",oFont5) // CONSUMO
+	oPrinter:Say(nlinhas-1,370,"KG",oFont5) // UND
+	oPrinter:Say(nlinhas-1,420,"Dt inicio",oFont5) // DTINICIO
+	oPrinter:Say(nlinhas-1,470,"Horas inicio",oFont5) // HORA INICIIOO
+	oPrinter:Say(nlinhas-1,520,"datas fim",oFont5) // DATA FIM	
+	oPrinter:Say(nlinhas-1,560,"horas fim",oFont5) // HORA FIM
+	//ncol = ncol + 50
+	//@nlLin,350 PSAY __PrtThinLine()
+	oPrinter:Line(nlinhas+1,01,nlinhas+1,593) 	// horizontal linha parte de baixo da box.
+					   //03	//400 altura//3
+	/* if ii == 1
+	oPrinter:Line(nlinhas+3,03,263,03)//linha vertical da direita
+	else */
+	/* naltura := 0
+	naltura := naltura + 263 */
+	oPrinter:Line(nlinhas+1,29,247,29)//linha vertical da direita 1
+	oPrinter:Line(nlinhas+1,90,247,90)//linha vertical da direita 2 codigo
+	oPrinter:Line(nlinhas+1,138,247,138)//linha vertical da direita 3 descricao
+	oPrinter:Line(nlinhas+1,262,247,262)//linha vertical da direita 4 qtd
+	oPrinter:Line(nlinhas+1,318,247,318)//linha vertical da direita 5 consumo
+	oPrinter:Line(nlinhas+1,368,247,368)//linha vertical da direita 6 und
+	oPrinter:Line(nlinhas+1,418,247,418)//linha vertical da direita 7 dtinicio
+	oPrinter:Line(nlinhas+1,468,247,468)//linha vertical da direita 8 hora inicio
+	oPrinter:Line(nlinhas+1,518,247,518)//linha vertical da direita 9 dt fim
+	oPrinter:Line(nlinhas+1,558,247,558)//linha vertical da direita 10 hora fim
+next
+
+
+
+//	oPrinter:Line(347,01,352,593) 	// horizontal
+	oPrinter:Say(355,03,"TAREFA:",oFont5negrito)
+//TAREFA DESCRICAO
+	oPrinter:Line(359,01,359,593) 		// horizontal linha de cima  da box.
+	oPrinter:Say(366,03,"Codigo",oFont5negrito)
+	oPrinter:Say(366,45,"Descrição",oFont5negrito)
+	oPrinter:Line(368,01,368,573) 		// horizontal linha de cima  da box.
+	repetir2 := 8
+
+nlinhas := 370
+	for ii := 1 to repetir2
+nlinhas:= nlinhas + 10
+	oPrinter:Say(nlinhas-1,03,"1011",oFont5) // QTD
+	oPrinter:Say(nlinhas-2,40,"BATEDOR ALIMENTADOR LA",oFont5) // CONSUMO
+	oPrinter:Line(nlinhas,01,nlinhas,593) 	// horizontal linha parte de baixo da box.
+	oPrinter:Line(nlinhas+1,29,359,29)//linha vertical da direita 1 
+	NEXT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//oPrinter:Line(456,01,456,593) 	// horizontal
+	oPrinter:Say(462,03,"TAREFA",oFont5negrito)
+	oPrinter:Say(462,45,"ETAPA",oFont5negrito)
+	oPrinter:Line(466,01,466,593) 
+	oPrinter:Say(473,03,"CODIGO",oFont5negrito)
+	oPrinter:Say(473,45,"codigo2",oFont5negrito)
+	oPrinter:Say(473,90,"DESCRIÇÃO",oFont5negrito)
+	oPrinter:Line(475,01,475,573) 		// horizontal linha de cima  da box.
+
+	repetir3 := 8
+
+nlinhas2 := 477
+	for ii := 1 to repetir3
+nlinhas2:= nlinhas2 + 10
+	oPrinter:Say(nlinhas2,03,"1011",oFont5) // QTD
+	oPrinter:Say(nlinhas2,40,"000001",oFont5) // CONSUMO
+	oPrinter:Say(nlinhas2,85,"LUZ SOLAR 100 GRAUS",oFont5) // 
+	oPrinter:Line(nlinhas2,01,nlinhas2,593) 	// horizontal linha parte de baixo da box.
+	oPrinter:Line(nlinhas2+1,35,466,35)//linha vertical da direita 1 
+	oPrinter:Line(nlinhas2+1,80,466,80)//linha vertical da direita 1 
+	NEXT
+
+
+
+
+
+
+//ocorrencias
+	oPrinter:Line(567,01,567,593) 
+	oPrinter:Say(577,03,"OCORRENCIAS:",oFont5)
+	SPACE := 55
+  	oPrinter:Line(587,SPACE,587,593) 	// horizontal
+  	oPrinter:Line(597,SPACE,597,593) 	// horizontal
+  	oPrinter:Line(607,SPACE,607,593) 	// horizontal
+	oPrinter:Line(617,SPACE,617,593) 	
+  //	oPrinter:Line(226,SPACE,226,593) 	// horizontal
+	oPrinter:Line(633,01,633,593) 	// horizontal
+
+
+
+
+
+
+
+
+// + 20
+
+oPrinter:Say(653,03,"INSUMOS REPORTADOS:",oFont5negrito)
+
+	nlinhas5 := 671 // + 18
+	nlineprevistos := 686 // +33
+//cabeçalho!	// + 7
+	oPrinter:Line(660,01,660,593)  //linha de baixo
+
+	oPrinter:Say(nlineprevistos -18,03,"Tarefa",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,45,"Tipo",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,95,"Codigo",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,140,"Descrição",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,270,"Qtd",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,320,"Consumo",oFont5negrito)
+	oPrinter:say(nlineprevistos -18,370,"Unidade",oFont5negrito)
+	oPrinter:say(nlineprevistos -18,420,"Data inicio",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,470,"Hora inicio",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,520,"Data fim",oFont5negrito)
+	oPrinter:Say(nlineprevistos -18,560,"Hora fim",oFont5negrito)
+		oPrinter:Line(670,01,670,593)  //linha de baixo
+				//+ 17   //+ 17
+
+	//linha de items fixo em 16.
+	
+	ncolunas := 0
+	ncol := 03
+	repetir := 8
+	nlargura := 31
+	line1 := 1
+	
+for ii := 1 to repetir
+ncolunas  := ncolunas+50
+nlinhas5:= nlinhas5 + 10
+	oPrinter:Say(nlinhas5,03,"1011",oFont5) 
+	// TAREFA
+	ctipo := 'Mao de obra'
+	IF(Len(AllTrim(ctipo)) > 20)
+	oPrinter:Say(nlinhas5-1,32,ctipo,oFont3)  //usa font3
+	else
+	oPrinter:Say(nlinhas5-1,32,ctipo,oFont5) 
+	ENDIF
+
+	codigo = '30700310023'
+	IF(Len(AllTrim(codigo)) > 11)// CODIGO
+	oPrinter:Say(nlinhas5-1,94,"30700310023",oFont3) 
+	ELSE
+	oPrinter:Say(nlinhas5-1,94,codigo,oFont5) // CODIGO
+	ENDIF// itensens
+	cDescr = 'OLEO LUBRIFI'
+	IF(Len(AllTrim(cDescr)) > 24)
+		oPrinter:Say(nlinhas5-1,140,SUBSTR(cDescr, 1, 35),oFont3) // DESCRICAO usa font3
+	ELSE
+		oPrinter:Say(nlinhas5-1,140,cDescr,oFont5) // DESCRICAO
+	ENDIF
+	oPrinter:Say(nlinhas5-1,270,"0,25",oFont5) // QTD
+	oPrinter:Say(nlinhas5-1,320,"24,5",oFont5) // CONSUMO
+	oPrinter:Say(nlinhas5-1,370,"KG",oFont5) // UND
+	oPrinter:Say(nlinhas5-1,420,"Dt inicio",oFont5) // DTINICIO
+	oPrinter:Say(nlinhas5-1,470,"Horas inicio",oFont5) // HORA INICIIOO
+	oPrinter:Say(nlinhas5-1,520,"datas fim",oFont5) // DATA FIM	
+	oPrinter:Say(nlinhas5-1,560,"horas fim",oFont5) // HORA FIM
+	//ncol = ncol + 50
+	//@nlLin,350 PSAY __PrtThinLine()
+	oPrinter:Line(nlinhas5+1,01,nlinhas5+1,593) 	// horizontal linha parte de baixo da box.
+					   //03	//400 altura//3
+	/* if ii == 1
+	oPrinter:Line(nlinhas5+3,03,263,03)//linha vertical da direita
+	else */
+	/* naltura := 0
+	naltura := naltura + 263 */
+	oPrinter:Line(nlinhas5+1,29,660,29)//linha vertical da direita 1
+	oPrinter:Line(nlinhas5+1,90,660,90)//linha vertical da direita 2 codigo
+	oPrinter:Line(nlinhas5+1,138,660,138)//linha vertical da direita 3 descricao
+	oPrinter:Line(nlinhas5+1,262,660,262)//linha vertical da direita 4 qtd
+	oPrinter:Line(nlinhas5+1,318,660,318)//linha vertical da direita 5 consumo
+	oPrinter:Line(nlinhas5+1,368,660,368)//linha vertical da direita 6 und
+	oPrinter:Line(nlinhas5+1,418,660,418)//linha vertical da direita 7 dtinicio
+	oPrinter:Line(nlinhas5+1,468,660,468)//linha vertical da direita 8 hora inicio
+	oPrinter:Line(nlinhas5+1,518,660,518)//linha vertical da direita 9 dt fim
+	oPrinter:Line(nlinhas5+1,558,660,558)//linha vertical da direita 10 hora fim
+next
+
+
+
+
+
+
+
 
 
 
@@ -129,190 +372,3 @@ nlin2 := 79
     oPrinter:Preview()
 
 Return 
-
-
-Static Function OkLeTxt
-
-aDados   := {}
-
-If !File(cDirArq)
-	Alert('Arquivo não encontrado!!!')
-	Return
-Endif
-
-FT_FUSE(cDirArq) //arquivo
-FT_FGOTOP()
-nCountLn	:=	FT_FLASTREC() 
-ProcRegua(nCountLn)
-FT_FGOTOP()
-
-
-
-Processa({|| RunCont() },"Processando...")
-Return
-
-
-/*
-ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
-±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
-±±ÉÝÝÝÝÝÝÝÝÝÝÑÝÝÝÝÝÝÝÝÝÝËÝÝÝÝÝÝÝÑÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝËÝÝÝÝÝÝÑÝÝÝÝÝÝÝÝÝÝÝÝÝ»±±
-±±ºPrograma  ³RECETXT1  ºAutor  ³Microsiga           º Data ³  21/10/2019 º±±
-±±ÌÝÝÝÝÝÝÝÝÝÝØÝÝÝÝÝÝÝÝÝÝÊÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÊÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝ¹±±
-±±ºDesc.     ³                                                            º±±
-±±º          ³                                                            º±±
-±±ÌÝÝÝÝÝÝÝÝÝÝØÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝ¹±±
-±±ºUso       ³ AP                                                        º±±
-±±ÈÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝÝ¼±±
-±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
-ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
-*/
-
-Static Function RunCont
-
-Local nTamFile, nTamLin,  nBtLidos
-
-
-
-
-FT_FSKIP()     //como a primeira linha [e CABECALHO O SISTEMA PULA A PRIMEIRA
-
-ncount := 0
-Do While !FT_FEOF()
-   
-
-	cLinha	:=	FT_FREADLN()
-
-	IncProc()
-   //	dbSelectArea(cString)
-   //	dbSelectArea("SE5")
-   //	dbSetOrder(1)        Fazer uma querie comparando tosos os campos para alertar de registro ja existente, pois nao existe um numero de documento para validar
-	
-	//DATA MOV.;NUMERÝRIO; VALOR MOVIMENTO ;NATUREZA; BANCO ;AGENCIA;CONTA;BENEFICIARIO;HISTÓRICO;C.CUSTO DÉBITO
-	//E5_DATA     E5_MOEDA     E5_VALOR     E5_NATUREZ     E5_BANCO     E5_AGENCIA     E5_CONTA     E5_BENEF     E5_HISTOR     E5_CCD     
-
-	cfilial		:=	SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	cconta	:=	SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	cdesc  	:=	SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	cclasse  	:=	SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	cnormal      :=	SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	cres	:=	SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	cbloq  	:=	SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	ccusto	:=	SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-    cvd02  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    cvd03  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    cvd04  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    cvd05  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    cvc02  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    cvc03  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    cvc04  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    cvc05  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	CTASUP  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    acitem  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    accust  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-	acclvl  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    DTEXIS  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-	AGLSLD  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    CCOBRG  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    ITOBRG  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    CLOBRG  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    LALHIR  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    LALUR  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    NATCTA  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-    ACATIV  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha)) 
-	ATOBRG  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	ACT05  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	 OBRG :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	SPEDST  :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	NTSPED :=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	ACAT01	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	AT01OB	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	ACAT02	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	ATO2OB	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	ACATO3	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	AT03OB	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	ACAT04	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	ACAT04	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	AT04OB	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	INTP	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-	PVARC	:=  SubStr(cLinha,1 ,AT(';', cLinha)-1); cLinha := SubStr(cLinha, AT(';',cLinha)+1, Len(cLinha))
-
-		   NCOUNT++
-
-
-	       dbSelectArea("CT1")  
-		   DbSetOrder(1)
-		   DBSEEK(XFILIAL("CT1")+CCONTA,.F.)
-		   IF FOUND()
-	            RecLock("CT1",.F.)
-		   ELSE
-		       RecLock("CT1",.T.)
-
-		   ENDIF		
-
-	       CT1->CT1_FILIAL   := cfilial
-	       CT1->CT1_CONTA  := cconta	
-		   CT1->CT1_DESC01 := cdesc
-		   CT1->CT1_CLASSE  := cclasse	 
-		   CT1->CT1_NORMAL  := cnormal
-   	   
-		   CT1->CT1_RES   := cres	   		   
-		   CT1->CT1_BLOQ   :=  cbloq //  "P"		   
-		   CT1->CT1_NCUSTO   := VAL(ccusto)/100		   	   		   
-		   CT1->CT1_CVD02    := cvd02 
-		   CT1->CT1_CVD03    := cvd03          
-		   CT1->CT1_CVD04  := cvd04 
-		   CT1->CT1_CVD05 	:= cvd05
-           CT1->CT1_CVC02	:= cvc02
-           CT1->CT1_CVC03  := cvc03
-		   CT1->CT1_CVC04    := cvc04
-		   CT1->CT1_CVC05    := cvc05 
-		   CT1->CT1_CTASUP   := CTASUP            
-		   CT1->CT1_ACITEM      := acitem
-		   CT1->CT1_ACCUST := accust      
-		   CT1->CT1_ACCLVL      := acclvl
-		   CT1->CT1_DTEXIS      := CTOD(DTEXIS)  
-		   CT1->CT1_AGLSLD      := AGLSLD  		   
-		   CT1->CT1_CCOBRG      := CCOBRG 
-		   CT1->CT1_ITOBRG      := ITOBRG  
-		   CT1->CT1_CLOBRG      := CLOBRG  
-		   CT1->CT1_LALHIR      := LALHIR  
-    	   CT1->CT1_LALUR      := LALUR  
-		   CT1->CT1_NATCTA      := NATCTA
-		   CT1->CT1_ACATIV      := ACATIV   
-		   CT1->CT1_ATOBRG      := ATOBRG   
-		   CT1->CT1_ACET05      := ACT05
-		   CT1->CT1_05OBRG      := OBRG
-		   CT1->CT1_SPEDST      := SPEDST
-		   CT1->CT1_NTSPED      := NTSPED
-		   CT1->CT1_ACAT01      := ACAT01
-	       CT1->CT1_AT01OB      := AT01OB
-		   CT1->CT1_ACAT02    := ACAT02
-		   CT1->CT1_AT02OB    := ATO2OB
-		   CT1->CT1_ACAT03    := ACATO3
-		   CT1->CT1_AT03OB    := AT03OB
-		   CT1->CT1_ACAT04    := ACAT04
-		   CT1->CT1_AT04OB    := AT04OB
-		   CT1->CT1_INTP    := INTP
-		   CT1->CT1_PVARC    := PVARC
-
-
-		   
-		   
-		   
-		   		   
-		   MSUnLock()
-		   
-	    
-       
-	//nBtLidos := fRead(nHdl,@cBuffer,nTamLin) // Leitura da proxima linha do arquivo texto    
-  	FT_FSKIP()
-
-	IncProc()	
-EndDo
-
-fClose(cDirArq)
-//Close(oLeTxt)    
-
-msgstop(" Arquivo importado !!" +strzero(NCOUNT))
-
-Return
